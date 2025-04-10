@@ -1,50 +1,36 @@
-import { Difficulty } from "@/components/DifficultySelector";
+// Dictionary of words with their definitions
+const wordsList = [
+  { word: "XYLOPHONE", definition: "A musical instrument played by striking wooden bars of graduated length with small wooden hammers." },
+  { word: "SYMPHONY", definition: "An elaborate musical composition for full orchestra, typically in four movements." },
+  { word: "LABYRINTH", definition: "A complicated irregular network of passages or paths in which it is difficult to find one's way." },
+  { word: "PNEUMONIA", definition: "Lung inflammation caused by bacterial or viral infection, in which the air sacs fill with pus and may become solid." },
+  { word: "QUIZZICAL", definition: "Indicating mild or amused puzzlement; questioning." },
+  { word: "AWKWARD", definition: "Causing difficulty; hard to do or deal with; requiring caution; embarrassing; clumsy." },
+  { word: "NIGHTFALL", definition: "The onset of darkness; dusk." },
+  { word: "BOULEVARD", definition: "A wide street in a town or city, typically one lined with trees." },
+  { word: "JAZZ", definition: "A type of music originating in New Orleans characterized by improvisation and syncopation." },
+  { word: "VORTEX", definition: "A mass of whirling fluid or air, especially a whirlpool or whirlwind." },
+  { word: "CAT", definition: "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws." },
+  { word: "DOG", definition: "A domesticated carnivorous mammal that typically has a long snout, acute hearing, and is known for its loyalty." },
+  { word: "APPLE", definition: "The round fruit of a tree of the rose family, which typically has thin green or red skin and crisp flesh." },
+  { word: "HOUSE", definition: "A building for human habitation, especially one that consists of a ground floor and one or more upper storeys." },
+  { word: "MUSIC", definition: "Vocal or instrumental sounds combined to produce beauty of form, harmony, and expression of emotion." },
+  { word: "ZEBRA", definition: "An African wild horse with black-and-white stripes and an erect mane." },
+  { word: "GALAXY", definition: "A system of millions or billions of stars, together with gas and dust, held together by gravitational attraction." },
+  { word: "PHOENIX", definition: "A unique bird in mythology that cyclically regenerates by rising from its ashes after death." },
+  { word: "WHISKEY", definition: "A spirit distilled from malted grain, especially barley or rye." },
+  { word: "OXYGEN", definition: "A colorless, odorless reactive gas, the chemical element of atomic number 8." },
+  { word: "PUZZLE", definition: "A game, toy, or problem designed to test ingenuity or knowledge." },
+  { word: "KAYAK", definition: "A light narrow boat with a covered deck and a cockpit, propelled by a paddle." },
+  { word: "ZOMBIE", definition: "A fictional undead being created through the reanimation of a human corpse." },
+  { word: "YACHT", definition: "A medium-sized sailing boat equipped for cruising or racing." },
+  { word: "WIZARD", definition: "A man who has magical powers, especially in legends and fairy tales." }
+];
 
-// Dictionary of words by difficulty
-const wordsByDifficulty = {
-  easy: [
-    { word: "CAT", definition: "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws." },
-    { word: "DOG", definition: "A domesticated carnivorous mammal that typically has a long snout, acute hearing, and is known for its loyalty." },
-    { word: "SUN", definition: "The star around which the earth orbits, providing light and heat for the planet." },
-    { word: "HAT", definition: "A shaped covering for the head worn for warmth, as a fashion item, or as part of a uniform." },
-    { word: "BOOK", definition: "A written or printed work consisting of pages bound together." },
-    { word: "FISH", definition: "A limbless cold-blooded vertebrate animal with gills and fins living in water." },
-    { word: "BALL", definition: "A solid or hollow spherical object that is used in various games and sports." },
-    { word: "TREE", definition: "A woody perennial plant, typically with a single stem or trunk growing to a considerable height." },
-    { word: "CAKE", definition: "An item of soft, sweet food made from a mixture of flour, fat, eggs, sugar, and other ingredients, baked." },
-    { word: "DOOR", definition: "A hinged, sliding, or revolving barrier at the entrance to a building, room, or vehicle." }
-  ],
-  medium: [
-    { word: "APPLE", definition: "The round fruit of a tree of the rose family, which typically has thin green or red skin and crisp flesh." },
-    { word: "HOUSE", definition: "A building for human habitation, especially one that consists of a ground floor and one or more upper storeys." },
-    { word: "MUSIC", definition: "Vocal or instrumental sounds combined in such a way as to produce beauty of form, harmony, and expression of emotion." },
-    { word: "TABLE", definition: "A piece of furniture with a flat top and one or more legs, providing a level surface for eating, writing, etc." },
-    { word: "WATER", definition: "A transparent, odorless, tasteless liquid that forms the seas, lakes, rivers, and rain." },
-    { word: "PHONE", definition: "A telecommunications device that converts sound into electrical signals for transmission." },
-    { word: "MONEY", definition: "A current medium of exchange in the form of coins and banknotes." },
-    { word: "CHAIR", definition: "A separate seat for one person, typically with a back and four legs." },
-    { word: "PLANT", definition: "A living organism of the kind exemplified by trees, shrubs, herbs, grasses, ferns, and mosses." },
-    { word: "BREAD", definition: "Food made of flour, water, and yeast or another leavening agent, mixed together and baked." }
-  ],
-  hard: [
-    { word: "XYLOPHONE", definition: "A musical instrument played by striking wooden bars of graduated length with small wooden hammers." },
-    { word: "SYMPHONY", definition: "An elaborate musical composition for full orchestra, typically in four movements, at least one of which is traditionally in sonata form." },
-    { word: "LABYRINTH", definition: "A complicated irregular network of passages or paths in which it is difficult to find one's way." },
-    { word: "PNEUMONIA", definition: "Lung inflammation caused by bacterial or viral infection, in which the air sacs fill with pus and may become solid." },
-    { word: "QUIZZICAL", definition: "Indicating mild or amused puzzlement; questioning." },
-    { word: "AWKWARD", definition: "Causing difficulty; hard to do or deal with; requiring caution; embarrassing; clumsy." },
-    { word: "NIGHTFALL", definition: "The onset of darkness; dusk." },
-    { word: "BOULEVARD", definition: "A wide street in a town or city, typically one lined with trees." },
-    { word: "JAZZ", definition: "A type of music originating in New Orleans characterized by improvisation and syncopation." },
-    { word: "VORTEX", definition: "A mass of whirling fluid or air, especially a whirlpool or whirlwind." }
-  ]
-};
-
-// Function to get a random word based on difficulty
-export const getRandomWord = (difficulty: Difficulty) => {
-  const wordList = wordsByDifficulty[difficulty];
-  const randomIndex = Math.floor(Math.random() * wordList.length);
-  return wordList[randomIndex];
+// Function to get a random word
+export const getRandomWord = () => {
+  const randomIndex = Math.floor(Math.random() * wordsList.length);
+  return wordsList[randomIndex];
 };
 
 // Function to generate a hint for a word
@@ -91,18 +77,8 @@ const countVowels = (word: string) => {
   return word.split('').filter(letter => vowels.includes(letter.toUpperCase())).length;
 };
 
-// Generate AI definition for a word (simulated)
+// Generate AI definition for a word
 export const getWordDefinition = (word: string): string => {
-  // In a real application, this would call a dictionary API or AI model
-  // For now, we'll return predefined definitions
-  for (const difficulty in wordsByDifficulty) {
-    const wordList = wordsByDifficulty[difficulty as Difficulty];
-    const found = wordList.find(item => item.word.toUpperCase() === word.toUpperCase());
-    if (found) {
-      return found.definition;
-    }
-  }
-  
-  // Default definition if not found
-  return `${word} - a word with ${word.length} letters that was challenging to guess!`;
+  const found = wordsList.find(item => item.word.toUpperCase() === word.toUpperCase());
+  return found ? found.definition : `${word} - a word with ${word.length} letters that was challenging to guess!`;
 };

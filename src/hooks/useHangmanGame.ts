@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { Difficulty } from "@/components/DifficultySelector";
 import { getRandomWord, generateHint, getWordDefinition } from "@/utils/aiWordGenerator";
 
 export interface HangmanGameState {
@@ -14,7 +13,6 @@ export interface HangmanGameState {
   wins: number;
   currentStreak: number;
   bestStreak: number;
-  difficulty: Difficulty;
   currentHint: string;
   isHintDialogOpen: boolean;
   isLoadingHint: boolean;
@@ -36,7 +34,7 @@ export const useHangmanGame = () => {
       bestStreak: 0
     };
     
-    const initialWord = getRandomWord('medium');
+    const initialWord = getRandomWord();
     
     return {
       word: initialWord.word,
@@ -49,7 +47,6 @@ export const useHangmanGame = () => {
       wins: stats.wins,
       currentStreak: stats.currentStreak,
       bestStreak: stats.bestStreak,
-      difficulty: 'medium' as Difficulty,
       currentHint: '',
       isHintDialogOpen: false,
       isLoadingHint: false,
@@ -134,7 +131,7 @@ export const useHangmanGame = () => {
   
   // Function to start a new game
   const startNewGame = () => {
-    const newWordData = getRandomWord(gameState.difficulty);
+    const newWordData = getRandomWord();
     
     setGameState(prev => ({
       ...prev,
@@ -182,41 +179,12 @@ export const useHangmanGame = () => {
     }));
   };
   
-  // Function to change the difficulty
-  const changeDifficulty = (difficulty: Difficulty) => {
-    if (gameState.gameStatus !== 'playing' || difficulty === gameState.difficulty) {
-      return;
-    }
-    
-    const confirmChange = window.confirm(
-      "Changing the difficulty will restart your current game. Continue?"
-    );
-    
-    if (confirmChange) {
-      const newWordData = getRandomWord(difficulty);
-      
-      setGameState(prev => ({
-        ...prev,
-        difficulty,
-        word: newWordData.word,
-        guessedLetters: [],
-        wrongAttempts: 0,
-        gameStatus: 'playing',
-        usedLetters: {},
-        hintsLeft: HINTS_PER_GAME,
-        isGameOverModalOpen: false,
-        wordDefinition: newWordData.definition
-      }));
-    }
-  };
-  
   return {
     ...gameState,
     maxWrongAttempts: MAX_WRONG_ATTEMPTS,
     guessLetter,
     startNewGame,
     requestHint,
-    closeHintDialog,
-    changeDifficulty
+    closeHintDialog
   };
 };

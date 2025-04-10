@@ -1,9 +1,9 @@
+
 import React from 'react';
 import HangmanFigure from "@/components/HangmanFigure";
 import Keyboard from "@/components/Keyboard";
 import WordDisplay from "@/components/WordDisplay";
 import HintButton from "@/components/HintButton";
-import DifficultySelector from "@/components/DifficultySelector";
 import GameStats from "@/components/GameStats";
 import GameOverModal from "@/components/GameOverModal";
 import HintDialog from "@/components/HintDialog";
@@ -25,13 +25,7 @@ const Index = () => {
         </header>
         
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-            <DifficultySelector 
-              difficulty={game.difficulty} 
-              onChange={game.changeDifficulty}
-              disabled={game.gameStatus !== 'playing'}
-            />
-            
+          <div className="flex justify-end mb-6 gap-4">
             <div className="flex gap-2">
               <HintButton 
                 onRequestHint={game.requestHint} 
