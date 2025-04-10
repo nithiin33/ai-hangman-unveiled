@@ -1,4 +1,3 @@
-
 import React from 'react';
 import HangmanFigure from "@/components/HangmanFigure";
 import Keyboard from "@/components/Keyboard";
@@ -95,6 +94,7 @@ const Index = () => {
         onClose={game.closeHintDialog}
         hint={game.currentHint}
         isLoading={game.isLoadingHint}
+        wordDefinition={game.wordDefinition}
       />
       
       <GameOverModal 

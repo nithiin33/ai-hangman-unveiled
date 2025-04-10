@@ -16,13 +16,15 @@ interface HintDialogProps {
   onClose: () => void;
   hint: string;
   isLoading: boolean;
+  wordDefinition: string;
 }
 
 const HintDialog: React.FC<HintDialogProps> = ({
   isOpen,
   onClose,
   hint,
-  isLoading
+  isLoading,
+  wordDefinition
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -34,14 +36,23 @@ const HintDialog: React.FC<HintDialogProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <div className="min-h-[100px] flex items-center justify-center">
+        <div className="min-h-[100px] flex flex-col items-center justify-center gap-4">
           {isLoading ? (
             <div className="flex flex-col items-center gap-2">
               <div className="h-8 w-8 rounded-full border-4 border-hangman-primary/30 border-t-hangman-primary animate-spin"></div>
               <p className="text-sm text-muted-foreground">Generating hint...</p>
             </div>
           ) : (
-            <DialogDescription className="text-center">{hint}</DialogDescription>
+            <>
+              <DialogDescription className="text-center">{hint}</DialogDescription>
+              
+              {wordDefinition && (
+                <div className="mt-2 pt-4 border-t w-full">
+                  <p className="font-medium text-sm text-hangman-primary mb-1">Word Definition:</p>
+                  <p className="text-sm text-muted-foreground">{wordDefinition}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
         

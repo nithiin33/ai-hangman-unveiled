@@ -120,7 +120,7 @@ export const useHangmanGame = () => {
       const newWrongAttempts = isCorrect ? prev.wrongAttempts : prev.wrongAttempts + 1;
       const newUsedLetters = { 
         ...prev.usedLetters, 
-        [upperLetter]: isCorrect ? 'correct' : 'incorrect'
+        [upperLetter]: isCorrect ? 'correct' as const : 'incorrect' as const
       };
       
       return {

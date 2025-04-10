@@ -16,6 +16,7 @@ const HintButton: React.FC<HintButtonProps> = ({ onRequestHint, hintsLeft, disab
       className="flex items-center gap-2 bg-hangman-blue/30 border-hangman-blue hover:bg-hangman-blue/50"
       onClick={onRequestHint}
       disabled={hintsLeft <= 0 || disabled}
+      title={hintsLeft > 0 ? "Get a hint and word definition" : "No hints left"}
     >
       <Sparkles size={18} /> 
       {hintsLeft > 0 ? `Get AI Hint (${hintsLeft} left)` : "No hints left"}

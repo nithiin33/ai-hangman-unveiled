@@ -18,7 +18,7 @@ const WordDisplay: React.FC<WordDisplayProps> = ({ word, guessedLetters, gameOve
           <div key={index} className="hangman-word-letter">
             <span 
               className={`transition-opacity ${isGuessed || gameOver ? 'opacity-100' : 'opacity-0'} 
-              ${!isGuessed && gameOver ? 'text-red-500' : ''}`}
+              ${!isGuessed && gameOver ? 'text-red-500' : ''} ${isGuessed ? 'text-green-600' : ''}`}
             >
               {letter.toUpperCase()}
             </span>
