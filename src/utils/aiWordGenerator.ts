@@ -35,8 +35,7 @@ export const getRandomWord = () => {
 
 // Function to generate a hint for a word
 export const generateHint = (word: string, guessedLetters: string[]) => {
-  // In a real AI application, this would call an API like OpenAI
-  // For now, we'll generate simple hints
+  // Generate all possible hints
   const hints = [
     `This word has ${word.length} letters.`,
     `The first letter is '${word[0]}'.`,
@@ -46,7 +45,18 @@ export const generateHint = (word: string, guessedLetters: string[]) => {
     `This might be something you can find in nature.`,
     `It might be related to food or drink.`,
     `This could be something you'd find at home.`,
-    `Consider words that start with '${word[0]}' and have ${word.length} letters.`
+    `Consider words that start with '${word[0]}' and have ${word.length} letters.`,
+    `There are ${word.split('').filter(char => char === word[0]).length} occurrences of the letter '${word[0]}'`,
+    `This word has ${(word.match(/[aeiouAEIOU]/g) || []).length} vowels and ${word.length - (word.match(/[aeiouAEIOU]/g) || []).length} consonants.`,
+    `The word ends with '${word.slice(-2)}'.`,
+    `The second letter of the word is '${word[1]}'.`,
+    `If you arranged this word's letters alphabetically, '${[...word].sort().join('')}' is what you'd get.`,
+    `The middle letter(s) of the word ${word.length % 2 === 0 ? 'are' : 'is'} '${word.length % 2 === 0 ? word.slice(word.length/2 - 1, word.length/2 + 1) : word[Math.floor(word.length/2)]}'.`,
+    `The word contains ${new Set(word.split('')).size} unique letters.`,
+    `This word is used in ${getWordContext(word)}.`,
+    `The word has ${word.split('').filter(char => 'aeiouAEIOU'.includes(char)).length > 2 ? 'more' : 'less'} than 3 vowels.`,
+    `${word.length > 5 ? 'This is a relatively long word.' : 'This is a relatively short word.'}`,
+    `The letters in this word appear in ${isAlphabeticalOrder(word) ? 'mostly alphabetical' : 'mixed'} order.`
   ];
 
   // Don't reveal letters that haven't been guessed yet
@@ -66,9 +76,28 @@ export const generateHint = (word: string, guessedLetters: string[]) => {
     return true;
   });
   
-  // Get a random hint that doesn't reveal unguessed letters
-  const randomIndex = Math.floor(Math.random() * safeHints.length);
-  return safeHints[randomIndex] || "Try to guess another letter!";
+  // Get a random hint that hasn't been used before
+  const unusedHints = safeHints.filter(hint => 
+    !sessionStorage.getItem(`used_hint_${word}_${hint}`)
+  );
+  
+  // If all hints have been used, clear the used hints for this word
+  if (unusedHints.length === 0) {
+    Array.from(sessionStorage.keys()).forEach(key => {
+      if (key.startsWith(`used_hint_${word}_`)) {
+        sessionStorage.removeItem(key);
+      }
+    });
+    return generateHint(word, guessedLetters); // Try again with cleared hints
+  }
+  
+  const randomIndex = Math.floor(Math.random() * unusedHints.length);
+  const selectedHint = unusedHints[randomIndex];
+  
+  // Mark this hint as used
+  sessionStorage.setItem(`used_hint_${word}_${selectedHint}`, 'true');
+  
+  return selectedHint || "Try to guess another letter!";
 };
 
 // Helper function to count vowels in a word
@@ -81,4 +110,15 @@ const countVowels = (word: string) => {
 export const getWordDefinition = (word: string): string => {
   const found = wordsList.find(item => item.word.toUpperCase() === word.toUpperCase());
   return found ? found.definition : `${word} - a word with ${word.length} letters that was challenging to guess!`;
+};
+
+// New helper functions for enhanced hints
+const getWordContext = (word: string): string => {
+  const contexts = ['everyday conversation', 'formal writing', 'scientific context', 'common vocabulary'];
+  return contexts[Math.floor(Math.random() * contexts.length)];
+};
+
+const isAlphabeticalOrder = (word: string): boolean => {
+  const sorted = [...word.toLowerCase()].sort().join('');
+  return word.toLowerCase().split('').filter((char, i) => char === sorted[i]).length > word.length / 2;
 };
