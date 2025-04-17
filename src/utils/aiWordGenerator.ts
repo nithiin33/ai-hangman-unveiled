@@ -1,3 +1,4 @@
+
 // Dictionary of words with their definitions
 const wordsList = [
   { word: "XYLOPHONE", definition: "A musical instrument played by striking wooden bars of graduated length with small wooden hammers." },
@@ -33,8 +34,16 @@ export const getRandomWord = () => {
   return wordsList[randomIndex];
 };
 
+// Maintain a map of used hints per word
+const usedHintsByWord = new Map<string, Set<string>>();
+
 // Function to generate a hint for a word
 export const generateHint = (word: string, guessedLetters: string[]) => {
+  // Initialize hint tracking for this word if it doesn't exist
+  if (!usedHintsByWord.has(word)) {
+    usedHintsByWord.set(word, new Set<string>());
+  }
+
   // Generate all possible hints
   const hints = [
     `This word has ${word.length} letters.`,
@@ -76,9 +85,26 @@ export const generateHint = (word: string, guessedLetters: string[]) => {
     return true;
   });
   
-  // Get a random hint
-  const randomIndex = Math.floor(Math.random() * safeHints.length);
-  return safeHints[randomIndex] || "Try to guess another letter!";
+  // Get the set of used hints for this word
+  const usedHints = usedHintsByWord.get(word)!;
+  
+  // Filter out hints that have already been used for this word
+  const availableHints = safeHints.filter(hint => !usedHints.has(hint));
+  
+  // If all hints have been used, reset the used hints for this word
+  if (availableHints.length === 0) {
+    usedHintsByWord.set(word, new Set<string>());
+    return "You've seen all available hints for this word. Try guessing a letter!";
+  }
+  
+  // Select a random hint from available hints
+  const randomIndex = Math.floor(Math.random() * availableHints.length);
+  const selectedHint = availableHints[randomIndex];
+  
+  // Mark this hint as used
+  usedHints.add(selectedHint);
+  
+  return selectedHint || "Try to guess another letter!";
 };
 
 // Helper function to count vowels in a word
