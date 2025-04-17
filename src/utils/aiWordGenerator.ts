@@ -76,28 +76,9 @@ export const generateHint = (word: string, guessedLetters: string[]) => {
     return true;
   });
   
-  // Get a random hint that hasn't been used before
-  const unusedHints = safeHints.filter(hint => 
-    !sessionStorage.getItem(`used_hint_${word}_${hint}`)
-  );
-  
-  // If all hints have been used, clear the used hints for this word
-  if (unusedHints.length === 0) {
-    Array.from(sessionStorage.keys()).forEach(key => {
-      if (key.startsWith(`used_hint_${word}_`)) {
-        sessionStorage.removeItem(key);
-      }
-    });
-    return generateHint(word, guessedLetters); // Try again with cleared hints
-  }
-  
-  const randomIndex = Math.floor(Math.random() * unusedHints.length);
-  const selectedHint = unusedHints[randomIndex];
-  
-  // Mark this hint as used
-  sessionStorage.setItem(`used_hint_${word}_${selectedHint}`, 'true');
-  
-  return selectedHint || "Try to guess another letter!";
+  // Get a random hint
+  const randomIndex = Math.floor(Math.random() * safeHints.length);
+  return safeHints[randomIndex] || "Try to guess another letter!";
 };
 
 // Helper function to count vowels in a word

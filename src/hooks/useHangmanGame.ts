@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { generateHint } from "@/utils/aiWordGenerator";
 import { HangmanGameState } from "@/types/hangman";
-import { MAX_WRONG_ATTEMPTS } from "@/utils/hangmanConstants";
+import { MAX_WRONG_ATTEMPTS, HINTS_PER_GAME } from "@/utils/hangmanConstants";
 import {
   initializeGameState,
   saveGameStats,
